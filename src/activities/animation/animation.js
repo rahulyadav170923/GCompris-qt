@@ -52,3 +52,20 @@ function previousLevel() {
     }
     initLevel();
 }
+
+function rectangle() {
+
+}
+
+function square() {
+
+}
+
+function line() {
+
+}
+
+function circle() {
+
+}
+
