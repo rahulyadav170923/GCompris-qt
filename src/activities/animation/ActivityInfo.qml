@@ -1,6 +1,6 @@
 /* GCompris - ActivityInfo.qml
  *
- * Copyright (C) 2016 Your Name <yy@zz.org>
+ * Copyright (C) 2016 Rahul Yadav <rahulyadav170923@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,10 +21,10 @@ ActivityInfo {
   name: "animation/Animation.qml"
   difficulty: 2
   icon: "animation/animation.svg"
-  author: "Your Name &lt;yy@zz.org&gt;"
+  author: "Rahul YAdav &lt;rahulyadav170923@gmail.com&gt;"
   demo: true
-  title: "Animation activity"
-  description: ""
+  title: qsTr("Animation activity")
+  description: qsTr("In this game, children can draw freely. The goal is to discover how to create attractive drawings based on basic shapes: rectangles, ellipses and lines. To give children a wider range of choices, a set of images can also be used.")
   //intro: "put here in comment the text for the intro voice"
   goal: ""
   prerequisite: ""

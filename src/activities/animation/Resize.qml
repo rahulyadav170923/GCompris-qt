@@ -1,5 +1,26 @@
-import QtQuick 2.1
+/* GCompris - Resize.qml
+ *
+ * Copyright (C) 2016 Rahul Yadav <rahulyadav170923@gmail.com>
+ *
+ * Authors:
+ *   Bruno Coudoin <bruno.coudoin@gcompris.net> (GTK+ version)
+ *   Rahul Yadav <rahulyadav170923@gmail.com> (Qt Quick port)
+ *
+ *   This program is free software; you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation; either version 3 of the License, or
+ *   (at your option) any later version.
+ *
+ *   This program is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with this program; if not, see <http://www.gnu.org/licenses/>.
+ */
 
+import QtQuick 2.1
 import "../../core"
 import "animation.js" as Activity
 
@@ -17,25 +38,17 @@ Item {
             anchors.fill: parent
             drag{ target: parent; axis: Drag.XAxis }
             onMouseXChanged: {
-                switch (type) {
-                case "rectangle":
+                switch (true) {
+                case (type=="rectangle" || type=="text"):
                     if(drag.active){
+                        console.log('inside')
                         selComp.width = selComp.width - mouseX
                         selComp.x = selComp.x + mouseX
                         if(selComp.width < 0)
                             selComp.width = 0
                     }
                     break;
-                case "circle":
-                    if(drag.active){
-                        selComp.width = selComp.width - mouseX
-                        selComp.height = selComp.width
-                        selComp.x = selComp.x + mouseX
-                        if(selComp.width < 0)
-                            selComp.width = 0
-                    }
-                    break;
-                case "square":
+                case type=="circle":
                     if(drag.active){
                         selComp.width = selComp.width - mouseX
                         selComp.height = selComp.width
@@ -44,7 +57,16 @@ Item {
                             selComp.width = 0
                     }
                     break;
-                case "line":
+                case type=="square":
+                    if(drag.active){
+                        selComp.width = selComp.width - mouseX
+                        selComp.height = selComp.width
+                        selComp.x = selComp.x + mouseX
+                        if(selComp.width < 0)
+                            selComp.width = 0
+                    }
+                    break;
+                case type=="line":
                     if(drag.active){
                         if(selComp.width > 0){
                             selComp.width = selComp.width - mouseX
@@ -56,6 +78,7 @@ Item {
                     }
                     break;
                 default:
+                    console.log(type)
                     console.log("Sorry, we are out of types of resize elements");
                 }
 
@@ -77,23 +100,15 @@ Item {
             anchors.fill: parent
             drag{ target: parent; axis: Drag.XAxis }
             onMouseXChanged: {
-                switch (type) {
-                case "rectangle":
+                switch (true) {
+                case (type=="rectangle" || type=="text"):
                     if(drag.active){
                         selComp.width = selComp.width + mouseX
                         if(selComp.width < 0)
                             selComp.width = 0
                     }
                     break;
-                case "circle":
-                    if(drag.active){
-                        selComp.width = selComp.width + mouseX
-                        selComp.height = selComp.width
-                        if(selComp.width < 0)
-                            selComp.width = 0
-                    }
-                    break;
-                case "square":
+                case type=="circle":
                     if(drag.active){
                         selComp.width = selComp.width + mouseX
                         selComp.height = selComp.width
@@ -101,7 +116,15 @@ Item {
                             selComp.width = 0
                     }
                     break;
-                case "line":
+                case type=="square":
+                    if(drag.active){
+                        selComp.width = selComp.width + mouseX
+                        selComp.height = selComp.width
+                        if(selComp.width < 0)
+                            selComp.width = 0
+                    }
+                    break;
+                case type=="line":
                     if(drag.active){
                         selComp.width = selComp.width + mouseX
                         if(selComp.width < 0)
@@ -131,8 +154,8 @@ Item {
             anchors.fill: parent
             drag{ target: parent; axis: Drag.YAxis }
             onMouseYChanged: {
-                switch (type) {
-                case "rectangle":
+                switch (true) {
+                case (type=="rectangle" || type=="text"):
                     if(drag.active){
                         selComp.height = selComp.height - mouseY
                         selComp.y = selComp.y + mouseY
@@ -140,7 +163,7 @@ Item {
                             selComp.height = 0
                     }
                     break;
-                case "circle":
+                case type=="circle":
                     if(drag.active){
                         selComp.height = selComp.height - mouseY
                         selComp.width = selComp.height
@@ -149,7 +172,7 @@ Item {
                             selComp.height = 0
                     }
                     break;
-                case "square":
+                case type=="square":
                     if(drag.active){
                         selComp.height = selComp.height - mouseY
                         selComp.width = selComp.height
@@ -182,15 +205,15 @@ Item {
             anchors.fill: parent
             drag{ target: parent; axis: Drag.YAxis }
             onMouseYChanged: {
-                switch (type) {
-                case "rectangle":
+                switch (true) {
+                case (type=="rectangle" || type=="text"):
                     if(drag.active){
                         selComp.height = selComp.height + mouseY
                         if(selComp.height < 0)
                             selComp.height = 0
                     }
                     break;
-                case "circle":
+                case type=="circle":
                     if(drag.active){
                         selComp.height = selComp.height + mouseY
                         selComp.width = selComp.height
@@ -198,7 +221,7 @@ Item {
                             selComp.height = 0
                     }
                     break;
-                case "square":
+                case type=="square":
                     if(drag.active){
                         selComp.height = selComp.height + mouseY
                         selComp.width = selComp.height

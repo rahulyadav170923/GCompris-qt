@@ -1,10 +1,10 @@
-/* GCompris - animation.qml
+/* GCompris - Animation.qml
  *
- * Copyright (C) 2016 YOUR NAME <xx@yy.org>
+ * Copyright (C) 2016 Rahul Yadav <rahulyadav170923@gmail.com>
  *
  * Authors:
- *   <THE GTK VERSION AUTHOR> (GTK+ version)
- *   YOUR NAME <YOUR EMAIL> (Qt Quick port)
+ *   Bruno Coudoin <bruno.coudoin@gcompris.net> (GTK+ version)
+ *   Rahul Yadav <rahulyadav170923@gmail.com> (Qt Quick port)
  *
  *   This program is free software; you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -53,126 +53,202 @@ ActivityBase {
         onStart: { Activity.start(items) }
         onStop: { Activity.stop() }
 
-        property var selectionItem: null
 
-        MouseArea {
-            id: canvas
-            property var originx
-            property var originy
-            property var canvasFocus: canvas
-            property var collection: []
-            anchors.fill: parent
-            onClicked: canvasFocus = canvas
-            onPressed: {
-                originx = mouseX
-                originy = mouse.y
-                selectionItem = shapes.line.createObject(parent, {"x": mouseX, "y": mouse.y})
-                collection.push(selectionItem)
-                console.log("colllectio length  :  " + collection.length)
-
-            }
-            onPositionChanged: {
-                switch (selectionItem.type) {
-                  case "rectangle":
-                      if(mouseX < selectionItem.x){
-                          selectionItem.x = mouseX
-                          selectionItem.width = (Math.abs (originx - selectionItem.x))
-                      }
-                      else if( selectionItem.x < originx){
-                          selectionItem.x = mouseX
-                          selectionItem.width = (Math.abs (mouseX - originx))
-                      }
-                      else
-                          selectionItem.width = (Math.abs (mouseX - originx))
-
-                      if(mouse.y < selectionItem.y){
-                          selectionItem.y = mouse.y
-                          selectionItem.height = (Math.abs (originy - selectionItem.y))
-                      }
-                      else if( selectionItem.y < originy){
-                          selectionItem.y = mouse.y
-                          selectionItem.height = (Math.abs (mouse.y - originy))
-                      }
-                      else
-                          selectionItem.height = (Math.abs (mouse.y - originy))
-                    break;
-                  case "circle":
-                      if(mouseX < selectionItem.x){
-                          selectionItem.x = mouseX
-                          selectionItem.width = (Math.abs (originx - selectionItem.x))
-                      }
-                      else if( selectionItem.x < originx){
-                          selectionItem.x = mouseX
-                          selectionItem.width = (Math.abs (mouseX - originx))
-                      }
-                      else
-                          selectionItem.width = (Math.abs (mouseX - originx))
-
-                      if(mouse.y < selectionItem.y){
-                          selectionItem.y = mouse.y
-                          selectionItem.height = (Math.abs (originy - selectionItem.y))
-                      }
-                      else if( selectionItem.y < originy){
-                          selectionItem.y = mouse.y
-                          selectionItem.height = (Math.abs (mouse.y - originy))
-                      }
-                      else
-                          selectionItem.height = (Math.abs (mouse.y - originy))
-
-                      // for making a circle (best possible solution)
-
-                      if(Math.abs(selectionItem.width)>Math.abs(selectionItem.height))
-                          selectionItem.height = selectionItem.width
-                      else
-                          selectionItem.width = selectionItem.height
-                    break;
-                  case "square":
-                      if(mouseX < selectionItem.x){
-                          selectionItem.x = mouseX
-                          selectionItem.width = (Math.abs (originx - selectionItem.x))
-                      }
-                      else if( selectionItem.x < originx){
-                          selectionItem.x = mouseX
-                          selectionItem.width = (Math.abs (mouseX - originx))
-                      }
-                      else
-                          selectionItem.width = (Math.abs (mouseX - originx))
-
-                      if(mouse.y < selectionItem.y){
-                          selectionItem.y = mouse.y
-                          selectionItem.height = (Math.abs (originy - selectionItem.y))
-                      }
-                      else if( selectionItem.y < originy){
-                          selectionItem.y = mouse.y
-                          selectionItem.height = (Math.abs (mouse.y - originy))
-                      }
-                      else
-                          selectionItem.height = (Math.abs (mouse.y - originy))
-
-
-                      if(Math.abs(selectionItem.width)>Math.abs(selectionItem.height))
-                          selectionItem.height = selectionItem.width
-                      else
-                          selectionItem.width = selectionItem.height
-
-                      break;
-                  case "line":
-                      var x = mouseX - originx
-                      var y = mouseY - originy
-
-                      var length = Math.sqrt(x*x + y*y)
-                      selectionItem.width = length
-                      selectionItem.slope = Math.atan2(y, x) * 180 / Math.PI ;
-                    break;
-                  default:
-                    console.log("Sorry, we are out of types of shape");
+        // Temporary tool box for testing the tools on the canvas
+        Rectangle {
+            id: tools
+            width: parent.width*0.2
+            height: parent.height
+            anchors.left: parent.left
+            color: "green"
+            border.color: "black"
+            border.width: 5
+            radius: 10
+            property var currentTool: playground
+            Column {
+                width: parent.width
+                anchors.horizontalCenter: parent.horizontalCenter
+                spacing: 10
+                Repeater {
+                    model: ["rectangle", "square", "circle", "line","text"]
+                    Rectangle {
+                        width: parent.width*0.8
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        height: 100
+                        GCText {
+                            id: tooltext
+                            fontSize: regularSize
+                            color: "white"
+                            style: Text.Outline
+                            styleColor: "black"
+                            text: modelData
+                        }
+                        MouseArea {
+                            anchors.fill: parent
+                            onClicked: {
+                                switch(modelData) {
+                                case 'rectangle':
+                                    tools.currentTool = shapes.rectangle
+                                    console.log('rectangle')
+                                    break;
+                                case 'circle':
+                                    tools.currentTool = shapes.circle
+                                    break;
+                                case 'square':
+                                    tools.currentTool = shapes.square
+                                    break;
+                                case 'line':
+                                    tools.currentTool = shapes.line
+                                    break;
+                                case 'text':
+                                    tools.currentTool = shapes.textArea
+                                    break;
+                                default:
+                                    console.log('choose a tool')
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
 
-        Shapes {
-            id: shapes
-            property alias canvas: canvas
+
+        Rectangle {
+            id: playground
+            color: parent.color
+            anchors.left: tools.right
+            width: parent.width*0.8
+            height: parent.height
+            property string type: 'canvas'
+            property var selectionItem: tools.currentTool
+
+            MouseArea {
+                id: canvas
+                property var originx
+                property var originy
+                property var canvasFocus: canvas
+                property var collection: []
+                property alias selectionItem: playground.selectionItem
+                anchors.fill: parent
+                onClicked: canvasFocus = canvas
+                onPressed: {
+                    if(selectionItem.type != 'canvas') {
+                        originx = mouseX
+                            originy = mouse.y
+                            if(tools.currentTool!=null){
+                                selectionItem = tools.currentTool.createObject(parent, {"x": mouseX, "y": mouse.y})
+                                collection.push(selectionItem)
+                            }
+                            console.log("colllectio length  :  " + collection.length)
+                    }
+                }
+                onPositionChanged: {
+                    switch (selectionItem.type) {
+                    case ("canvas"):
+                        break;
+                    case "rectangle":
+                        if(mouseX < selectionItem.x){
+                            selectionItem.x = mouseX
+                            selectionItem.width = (Math.abs (originx - selectionItem.x))
+                        }
+                        else if( selectionItem.x < originx){
+                            selectionItem.x = mouseX
+                            selectionItem.width = (Math.abs (mouseX - originx))
+                        }
+                        else
+                            selectionItem.width = (Math.abs (mouseX - originx))
+
+                        if(mouse.y < selectionItem.y){
+                            selectionItem.y = mouse.y
+                            selectionItem.height = (Math.abs (originy - selectionItem.y))
+                        }
+                        else if( selectionItem.y < originy){
+                            selectionItem.y = mouse.y
+                            selectionItem.height = (Math.abs (mouse.y - originy))
+                        }
+                        else
+                            selectionItem.height = (Math.abs (mouse.y - originy))
+                        break;
+                    case "circle":
+                        if(mouseX < selectionItem.x){
+                            selectionItem.x = mouseX
+                            selectionItem.width = (Math.abs (originx - selectionItem.x))
+                        }
+                        else if( selectionItem.x < originx){
+                            selectionItem.x = mouseX
+                            selectionItem.width = (Math.abs (mouseX - originx))
+                        }
+                        else
+                            selectionItem.width = (Math.abs (mouseX - originx))
+
+                        if(mouse.y < selectionItem.y){
+                            selectionItem.y = mouse.y
+                            selectionItem.height = (Math.abs (originy - selectionItem.y))
+                        }
+                        else if( selectionItem.y < originy){
+                            selectionItem.y = mouse.y
+                            selectionItem.height = (Math.abs (mouse.y - originy))
+                        }
+                        else
+                            selectionItem.height = (Math.abs (mouse.y - originy))
+
+                        // for making a circle (best possible solution)
+
+                        if(Math.abs(selectionItem.width)>Math.abs(selectionItem.height))
+                            selectionItem.height = selectionItem.width
+                        else
+                            selectionItem.width = selectionItem.height
+                        break;
+                    case "square":
+                        if(mouseX < selectionItem.x){
+                            selectionItem.x = mouseX
+                            selectionItem.width = (Math.abs (originx - selectionItem.x))
+                        }
+                        else if( selectionItem.x < originx){
+                            selectionItem.x = mouseX
+                            selectionItem.width = (Math.abs (mouseX - originx))
+                        }
+                        else
+                            selectionItem.width = (Math.abs (mouseX - originx))
+
+                        if(mouse.y < selectionItem.y){
+                            selectionItem.y = mouse.y
+                            selectionItem.height = (Math.abs (originy - selectionItem.y))
+                        }
+                        else if( selectionItem.y < originy){
+                            selectionItem.y = mouse.y
+                            selectionItem.height = (Math.abs (mouse.y - originy))
+                        }
+                        else
+                            selectionItem.height = (Math.abs (mouse.y - originy))
+
+
+                        if(Math.abs(selectionItem.width)>Math.abs(selectionItem.height))
+                            selectionItem.height = selectionItem.width
+                        else
+                            selectionItem.width = selectionItem.height
+
+                        break;
+                    case "line":
+                        var x = mouseX - originx
+                        var y = mouseY - originy
+
+                        var length = Math.sqrt(x*x + y*y)
+                        selectionItem.width = length
+                        selectionItem.slope = Math.atan2(y, x) * 180 / Math.PI ;
+                        break;
+                    default:
+                        console.log("either shape is not present or no resizing needed");
+                    }
+                }
+            }
+
+            Shapes {
+                id: shapes
+                property alias canvas: canvas
+            }
+
         }
 
         DialogHelp {

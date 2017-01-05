@@ -1,5 +1,26 @@
-import QtQuick 2.1
+/* GCompris - Shapes.qml
+ *
+ * Copyright (C) 2016 Rahul Yadav <rahulyadav170923@gmail.com>
+ *
+ * Authors:
+ *   Bruno Coudoin <bruno.coudoin@gcompris.net> (GTK+ version)
+ *   Rahul Yadav <rahulyadav170923@gmail.com> (Qt Quick port)
+ *
+ *   This program is free software; you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation; either version 3 of the License, or
+ *   (at your option) any later version.
+ *
+ *   This program is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with this program; if not, see <http://www.gnu.org/licenses/>.
+ */
 
+import QtQuick 2.1
 import "../../core"
 import "animation.js" as Activity
 
@@ -12,6 +33,7 @@ Item {
     property alias circle: circle
     property alias square: square
     property alias line: line
+    property alias textArea: textArea
     Component {
         id: rectangle
 
@@ -25,6 +47,12 @@ Item {
             color: "#354682B4"
             property int rulersSize: 15
             property bool selected: canvas.canvasFocus === selComp ? 1 : 0
+
+            Resize {
+                id: resize
+                anchors.fill: parent
+                property string type: selComp.type
+            }
 
             MouseArea {     // drag mouse area
                 anchors.fill: parent
@@ -43,11 +71,6 @@ Item {
                 }
             }
 
-            Resize {
-                id: resize
-                anchors.fill: parent
-                property string type: 'rectangle'
-            }
 
 
         }
@@ -91,7 +114,7 @@ Item {
             Resize {
                 id: resize
                 anchors.fill: parent
-                property string type: 'circle'
+                property string type: selComp.type
             }
 
 
@@ -130,7 +153,7 @@ Item {
             Resize {
                 id: resize
                 anchors.fill: parent
-                property string type: 'square'
+                property string type: selComp.type
             }
 
         }
@@ -176,10 +199,61 @@ Item {
             Resize {
                 id: resize
                 anchors.fill: parent
-                property string type: 'line'
+                property string type: selComp.type
             }
 
         }
+    }
+
+    Component {
+        id: textArea
+
+        Rectangle {
+            id: selComp
+            width: edit.contentWidth + 30
+            height: edit.contentHeight
+            property string type: "text"
+            border {
+                width: 2
+                color: "black"
+            }
+            color: "#354682B4"
+            property int rulersSize: 15
+            property bool selected: canvas.canvasFocus === selComp ? 1 : 0
+
+
+            TextEdit {
+                id: edit
+                anchors.centerIn: parent
+                text: qsTr("enter text")
+                focus: false
+            }
+
+            MouseArea {     // drag mouse area
+                anchors.fill: parent
+                drag{
+                    target: parent
+                    minimumX: 0
+                    minimumY: 0
+                    maximumX: parent.parent.width - parent.width
+                    maximumY: parent.parent.height - parent.height
+                }
+
+                onClicked: canvas.canvasFocus = selComp
+
+                onDoubleClicked: {
+                    edit.focus = true
+                }
+            }
+
+            Resize {
+                id: resize
+                anchors.fill: parent
+                property string type: selComp.type
+            }
+
+        }
+
     }
 
 }
