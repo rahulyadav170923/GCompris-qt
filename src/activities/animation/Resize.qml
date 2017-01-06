@@ -26,7 +26,7 @@ import "animation.js" as Activity
 
 Item {
     Rectangle {
-        visible: selComp.selected
+        visible: resizeVisible
         width: rulersSize
         height: rulersSize
         //radius: rulersSize
@@ -88,7 +88,7 @@ Item {
 
     Rectangle {
 
-        visible: selComp.selected
+        visible: resizeVisible
         width: rulersSize
         height: rulersSize
         //radius: rulersSize
@@ -140,7 +140,7 @@ Item {
     }
 
     Rectangle {
-        visible: selComp.selected && type!="line"
+        visible: resizeVisible && type!="line"
         width: rulersSize
         height: rulersSize
         //radius: rulersSize
@@ -191,7 +191,7 @@ Item {
 
 
     Rectangle {
-        visible: selComp.selected && type!="line"
+        visible: resizeVisible && type!="line"
         width: rulersSize
         height: rulersSize
         //radius: rulersSize

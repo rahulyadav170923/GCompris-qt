@@ -46,32 +46,41 @@ Item {
             }
             color: "#354682B4"
             property int rulersSize: 15
-            property bool selected: canvas.canvasFocus === selComp ? 1 : 0
-
-            Resize {
-                id: resize
-                anchors.fill: parent
-                property string type: selComp.type
-            }
+            property bool resizeVisible: canvas.canvasFocus === selComp && currentTool == 'resize' ? 1 : 0
 
             MouseArea {     // drag mouse area
                 anchors.fill: parent
                 drag{
-                    target: parent
+                    target: currentTool == 'position' ? parent : null
                     minimumX: 0
                     minimumY: 0
                     maximumX: parent.parent.width - parent.width
                     maximumY: parent.parent.height - parent.height
                 }
 
-                onClicked: canvas.canvasFocus = selComp
+                onClicked: {
+                    canvas.canvasFocus = selComp
+                    if(currentToolType == 'edit'){
+                        switch(currentTool){
+                        case "deleteItem":
+                            parent.destroy()
+                            break;
+                        default:
+                            console.log('edit tool default')
+                        }
+                    }
+                }
 
                 onDoubleClicked: {
                     parent.destroy()        // destroy component
                 }
             }
 
-
+            Resize {
+                id: resize
+                anchors.fill: parent
+                property string type: selComp.type
+            }
 
         }
 
@@ -92,19 +101,30 @@ Item {
             radius: width/2
             color: "#354682B4"
             property int rulersSize: 15
-            property bool selected: canvas.canvasFocus === selComp ? 1 : 0
+            property bool resizeVisible: canvas.canvasFocus === selComp && currentTool == 'resize' ? 1 : 0
 
             MouseArea {     // drag mouse area
                 anchors.fill: parent
                 drag{
-                    target: parent
+                    target: currentTool == 'position' ? parent : null
                     minimumX: 0
                     minimumY: 0
                     maximumX: parent.parent.width - parent.width
                     maximumY: parent.parent.height - parent.height
                 }
 
-                onClicked: canvas.canvasFocus = selComp
+                onClicked: {
+                    canvas.canvasFocus = selComp
+                    if(currentToolType == 'edit'){
+                        switch(currentTool){
+                        case "deleteItem":
+                            parent.destroy()
+                            break;
+                        default:
+                            console.log('edit tool default')
+                        }
+                    }
+                }
 
                 onDoubleClicked: {
                     parent.destroy()        // destroy component
@@ -132,20 +152,30 @@ Item {
             }
             color: "#354682B4"
             property int rulersSize: 15
-            property bool selected: canvas.canvasFocus === selComp ? 1 : 0
+            property bool resizeVisible: canvas.canvasFocus === selComp && currentTool == 'resize' ? 1 : 0
 
             MouseArea {     // drag mouse area
                 anchors.fill: parent
                 drag{
-                    target: parent
+                    target: currentTool == 'position' ? parent : null
                     minimumX: 0
                     minimumY: 0
                     maximumX: parent.parent.width - parent.width
                     maximumY: parent.parent.height - parent.height
                 }
 
-                onClicked: canvas.canvasFocus = selComp
-
+                onClicked: {
+                    canvas.canvasFocus = selComp
+                    if(currentToolType == 'edit'){
+                        switch(currentTool){
+                        case "deleteItem":
+                            parent.destroy()
+                            break;
+                        default:
+                            console.log('edit tool default')
+                        }
+                    }
+                }
                 onDoubleClicked: {
                     parent.destroy()        // destroy component
                 }
@@ -172,7 +202,7 @@ Item {
             }
             color: "#354682B4"
             property int rulersSize: 15
-            property bool selected: canvas.canvasFocus === selComp ? 1 : 0
+            property bool resizeVisible: canvas.canvasFocus === selComp && currentTool == 'resize' ? 1 : 0
 
             transform: Rotation {
                 origin.x: 25
@@ -183,14 +213,25 @@ Item {
             MouseArea {     // drag mouse area
                 anchors.fill: parent
                 drag{
-                    target: parent
+                    target: currentTool == 'position' ? parent : null
                     minimumX: 0
                     minimumY: 0
                     maximumX: parent.parent.width - parent.width
                     maximumY: parent.parent.height - parent.height
                 }
 
-                onClicked: canvas.canvasFocus = selComp
+                onClicked: {
+                    canvas.canvasFocus = selComp
+                    if(currentToolType == 'edit'){
+                        switch(currentTool){
+                        case "deleteItem":
+                            parent.destroy()
+                            break;
+                        default:
+                            console.log('edit tool default')
+                        }
+                    }
+                }
 
                 onDoubleClicked: {
                     parent.destroy()        // destroy component
@@ -219,7 +260,7 @@ Item {
             }
             color: "#354682B4"
             property int rulersSize: 15
-            property bool selected: canvas.canvasFocus === selComp ? 1 : 0
+            property bool resizeVisible: canvas.canvasFocus === selComp && currentTool == 'resize' ? 1 : 0
 
 
             TextEdit {
@@ -229,17 +270,30 @@ Item {
                 focus: false
             }
 
+
+
             MouseArea {     // drag mouse area
                 anchors.fill: parent
                 drag{
-                    target: parent
+                    target: currentTool == 'position' ? parent : null
                     minimumX: 0
                     minimumY: 0
                     maximumX: parent.parent.width - parent.width
                     maximumY: parent.parent.height - parent.height
                 }
 
-                onClicked: canvas.canvasFocus = selComp
+                onClicked: {
+                    canvas.canvasFocus = selComp
+                    if(currentToolType == 'edit'){
+                        switch(currentTool){
+                        case "deleteItem":
+                            parent.destroy()
+                            break;
+                        default:
+                            console.log('edit tool : '+ currentTool)
+                        }
+                    }
+                }
 
                 onDoubleClicked: {
                     edit.focus = true
