@@ -32,7 +32,6 @@ ActivityBase {
     pageComponent: Rectangle {
         id: background
         anchors.fill: parent
-        color: "#ABCDEF"
         signal start
         signal stop
 
@@ -72,11 +71,11 @@ ActivityBase {
                 anchors.horizontalCenter: parent.horizontalCenter
                 spacing: 10
                 Repeater {
-                    model: ["rectangle", "square", "circle", "line", "text", "delete", "resize", "position"]
+                    model: ["rectangle", "square", "circle", "line", "text", "delete", "resize", "position",'bodyColor','borderColor']
                     Rectangle {
                         width: parent.width*0.8
                         anchors.horizontalCenter: parent.horizontalCenter
-                        height: 70
+                        height: 40
                         GCText {
                             id: tooltext
                             fontSize: regularSize
@@ -122,6 +121,14 @@ ActivityBase {
                                     tools.currentToolType = 'edit'
                                     tools.currentTool = 'position'
                                     break;
+                                case 'borderColor':
+                                    tools.currentToolType = 'edit'
+                                    tools.currentTool = 'borderColor'
+                                    break;
+                                case 'bodyColor':
+                                    tools.currentToolType = 'edit'
+                                    tools.currentTool = 'bodyColor'
+                                    break;
                                 default:
                                     console.log('choose a tool')
                                 }
@@ -136,20 +143,26 @@ ActivityBase {
 
         Rectangle {
             id: playground
-            color: parent.color
+            color: 'white'
             anchors.left: tools.right
             width: parent.width*0.8
             height: parent.height
             property string type: 'canvas'
-            MouseArea {
+            MouseArea   {
                 id: canvas
+                enabled: tools.currentToolType == 'createObject' || tools.currentTool == 'bodyColor' ? true : false
                 property var originx
                 property var originy
                 property var canvasFocus: canvas
                 property var collection: []
                 property var selectionItem
                 anchors.fill: parent
-                onClicked: canvasFocus = canvas
+                onClicked: {
+                    if(tools.currentToolType == 'createObject')
+                        canvasFocus = canvas
+                    else if(tools.currentTool == 'bodyColor')
+                        playground.color = colors.fillBodyColor
+                }
                 onPressed: {
                     if(tools.currentToolType == 'createObject' && tools.currentTool.type != 'canvas'){
                         originx = mouse.x
@@ -271,6 +284,54 @@ ActivityBase {
                 property alias canvas: canvas
                 property alias currentToolType: tools.currentToolType
                 property alias currentTool: tools.currentTool
+                property alias borderColor: colors.fillBorderColor
+                property alias bodyColor: colors.fillBodyColor
+            }
+        }
+        // have to add colors array for model below and add color function to canvas
+        Rectangle {
+            id: colors
+            width: playground.width*0.7
+            height: parent.height*0.1
+            visible: tools.currentTool == 'borderColor' || tools.currentTool == 'bodyColor' ? true : false
+            property var fillBodyColor: 'white'
+            property var fillBorderColor: 'white'
+            onFillBodyColorChanged: console.log('body color changed')
+            color: 'red'
+            anchors {
+                horizontalCenter: playground.horizontalCenter
+                bottom: playground.bottom
+            }
+            Row {
+                anchors.centerIn: parent
+                spacing: 10
+                Repeater {
+                    model: 10
+                    Grid {
+                        id: grid
+                        rows: 2
+                        columns: 2
+                        spacing: 2
+                        Repeater {
+                            model: 4
+                            Rectangle {
+                                width: 30
+                                height: 30
+                                border.width: 1
+                                color: "yellow"
+                                MouseArea {     // drag mouse area
+                                    anchors.fill: parent
+                                    onClicked: {
+                                        if(tools.currentTool == 'borderColor')
+                                            colors.fillBorderColor = parent.color
+                                        else
+                                            colors.fillBodyColor = parent.color
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
 
         }

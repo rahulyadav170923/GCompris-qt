@@ -48,7 +48,9 @@ Item {
             property int rulersSize: 15
             property bool resizeVisible: canvas.canvasFocus === selComp && currentTool == 'resize' ? 1 : 0
 
-            MouseArea {     // drag mouse area
+            MouseArea {
+                // drag mouse area
+                enabled: currentToolType == 'edit' ? true : false
                 anchors.fill: parent
                 drag{
                     target: currentTool == 'position' ? parent : null
@@ -64,6 +66,12 @@ Item {
                         switch(currentTool){
                         case "deleteItem":
                             parent.destroy()
+                            break;
+                        case "borderColor":
+                            selComp.border.color = borderColor
+                            break;
+                        case "bodyColor":
+                            selComp.color = bodyColor
                             break;
                         default:
                             console.log('edit tool default')
@@ -104,6 +112,7 @@ Item {
             property bool resizeVisible: canvas.canvasFocus === selComp && currentTool == 'resize' ? 1 : 0
 
             MouseArea {     // drag mouse area
+                enabled: currentToolType == 'edit' ? true : false
                 anchors.fill: parent
                 drag{
                     target: currentTool == 'position' ? parent : null
@@ -119,6 +128,12 @@ Item {
                         switch(currentTool){
                         case "deleteItem":
                             parent.destroy()
+                            break;
+                        case "borderColor":
+                            selComp.border.color = borderColor
+                            break;
+                        case "bodyColor":
+                            selComp.color = bodyColor
                             break;
                         default:
                             console.log('edit tool default')
@@ -155,6 +170,7 @@ Item {
             property bool resizeVisible: canvas.canvasFocus === selComp && currentTool == 'resize' ? 1 : 0
 
             MouseArea {     // drag mouse area
+                enabled: currentToolType == 'edit' ? true : false
                 anchors.fill: parent
                 drag{
                     target: currentTool == 'position' ? parent : null
@@ -170,6 +186,12 @@ Item {
                         switch(currentTool){
                         case "deleteItem":
                             parent.destroy()
+                            break;
+                        case "borderColor":
+                            selComp.border.color = borderColor
+                            break;
+                        case "bodyColor":
+                            selComp.color = bodyColor
                             break;
                         default:
                             console.log('edit tool default')
@@ -211,6 +233,7 @@ Item {
             }
 
             MouseArea {     // drag mouse area
+                enabled: currentToolType == 'edit' ? true : false
                 anchors.fill: parent
                 drag{
                     target: currentTool == 'position' ? parent : null
@@ -226,6 +249,12 @@ Item {
                         switch(currentTool){
                         case "deleteItem":
                             parent.destroy()
+                            break;
+                        case "borderColor":
+                            selComp.border.color = borderColor
+                            break;
+                        case "bodyColor":
+                            selComp.color = bodyColor
                             break;
                         default:
                             console.log('edit tool default')
@@ -271,8 +300,8 @@ Item {
             }
 
 
-
             MouseArea {     // drag mouse area
+                enabled: currentToolType == 'edit' ? true : false
                 anchors.fill: parent
                 drag{
                     target: currentTool == 'position' ? parent : null
@@ -288,6 +317,12 @@ Item {
                         switch(currentTool){
                         case "deleteItem":
                             parent.destroy()
+                            break;
+                        case "borderColor":
+                            selComp.border.color = borderColor
+                            break;
+                        case "bodyColor":
+                            selComp.color = bodyColor
                             break;
                         default:
                             console.log('edit tool : '+ currentTool)
