@@ -24,6 +24,16 @@ import QtQuick 2.1
 import "../../core"
 import "animation.js" as Activity
 
+/*
+1. add corner resizing
+2. resizing even after zero width
+3. error in line resiging ( detected once )
+
+*/
+
+
+
+
 Item {
     Rectangle {
         visible: resizeVisible
@@ -39,7 +49,7 @@ Item {
             drag{ target: parent; axis: Drag.XAxis }
             onMouseXChanged: {
                 switch (true) {
-                case (type=="rectangle" || type=="text"):
+                case (type=="rectangle" || type=="text" || type=="image"):
                     if(drag.active){
                         console.log('inside')
                         selComp.width = selComp.width - mouseX
@@ -101,7 +111,7 @@ Item {
             drag{ target: parent; axis: Drag.XAxis }
             onMouseXChanged: {
                 switch (true) {
-                case (type=="rectangle" || type=="text"):
+                case (type=="rectangle" || type=="text" || type=="image"):
                     if(drag.active){
                         selComp.width = selComp.width + mouseX
                         if(selComp.width < 0)
@@ -155,7 +165,7 @@ Item {
             drag{ target: parent; axis: Drag.YAxis }
             onMouseYChanged: {
                 switch (true) {
-                case (type=="rectangle" || type=="text"):
+                case (type=="rectangle" || type=="text" || type=="image"):
                     if(drag.active){
                         selComp.height = selComp.height - mouseY
                         selComp.y = selComp.y + mouseY
@@ -206,7 +216,7 @@ Item {
             drag{ target: parent; axis: Drag.YAxis }
             onMouseYChanged: {
                 switch (true) {
-                case (type=="rectangle" || type=="text"):
+                case (type=="rectangle" || type=="text" || type=="image"):
                     if(drag.active){
                         selComp.height = selComp.height + mouseY
                         if(selComp.height < 0)

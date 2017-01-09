@@ -24,6 +24,16 @@ import QtQuick 2.1
 import "../../core"
 import "animation.js" as Activity
 
+/*
+1. add support for hollow and filled shapes.
+2. Correct the basic code for the shapes(circle , square)
+3. Connect positioning and resizing together
+4. Custom setting for border width and add focus to text when created
+5. Custom setting for font size,color and family
+6. Seperating shapes as seperate components.
+7. clean the code
+*/
+
 
 Item {
 
@@ -34,20 +44,19 @@ Item {
     property alias square: square
     property alias line: line
     property alias textArea: textArea
+    property alias image: image
     Component {
         id: rectangle
-
         Rectangle {
             id: selComp
             property string type: "rectangle"
+            color: "blue"
+            property int rulersSize: 15
+            property bool resizeVisible: canvas.canvasFocus === selComp && currentTool == 'resize' ? 1 : 0
             border {
                 width: 2
                 color: "black"
             }
-            color: "#354682B4"
-            property int rulersSize: 15
-            property bool resizeVisible: canvas.canvasFocus === selComp && currentTool == 'resize' ? 1 : 0
-
             MouseArea {
                 // drag mouse area
                 enabled: currentToolType == 'edit' ? true : false
@@ -79,9 +88,6 @@ Item {
                     }
                 }
 
-                onDoubleClicked: {
-                    parent.destroy()        // destroy component
-                }
             }
 
             Resize {
@@ -102,14 +108,15 @@ Item {
         Rectangle {
             id: selComp
             property string type: "circle"
-            border {
-                width: 2
-                color: "black"
-            }
             radius: width/2
             color: "#354682B4"
             property int rulersSize: 15
             property bool resizeVisible: canvas.canvasFocus === selComp && currentTool == 'resize' ? 1 : 0
+
+            border {
+                width: 2
+                color: "black"
+            }
 
             MouseArea {     // drag mouse area
                 enabled: currentToolType == 'edit' ? true : false
@@ -161,13 +168,14 @@ Item {
         Rectangle {
             id: selComp
             property string type: "square"
+            color: "#354682B4"
+            property int rulersSize: 15
+            property bool resizeVisible: canvas.canvasFocus === selComp && currentTool == 'resize' ? 1 : 0
+
             border {
                 width: 2
                 color: "black"
             }
-            color: "#354682B4"
-            property int rulersSize: 15
-            property bool resizeVisible: canvas.canvasFocus === selComp && currentTool == 'resize' ? 1 : 0
 
             MouseArea {     // drag mouse area
                 enabled: currentToolType == 'edit' ? true : false
@@ -198,9 +206,7 @@ Item {
                         }
                     }
                 }
-                onDoubleClicked: {
-                    parent.destroy()        // destroy component
-                }
+
             }
             Resize {
                 id: resize
@@ -216,13 +222,8 @@ Item {
             id: selComp
             property string type: "line"
             property var slope: 0
-            height: 5
-
-            border {
-                width: 5
-                color: "black"
-            }
-            color: "#354682B4"
+            height: 10
+            color: "black"
             property int rulersSize: 15
             property bool resizeVisible: canvas.canvasFocus === selComp && currentTool == 'resize' ? 1 : 0
 
@@ -251,7 +252,6 @@ Item {
                             parent.destroy()
                             break;
                         case "borderColor":
-                            selComp.border.color = borderColor
                             break;
                         case "bodyColor":
                             selComp.color = bodyColor
@@ -260,10 +260,6 @@ Item {
                             console.log('edit tool default')
                         }
                     }
-                }
-
-                onDoubleClicked: {
-                    parent.destroy()        // destroy component
                 }
             }
             Resize {
@@ -283,20 +279,21 @@ Item {
             width: edit.contentWidth + 30
             height: edit.contentHeight
             property string type: "text"
+
+            color: "#354682B4"
+            property int rulersSize: 15
+            property bool resizeVisible: canvas.canvasFocus === selComp && currentTool == 'resize' ? 1 : 0
             border {
                 width: 2
                 color: "black"
             }
-            color: "#354682B4"
-            property int rulersSize: 15
-            property bool resizeVisible: canvas.canvasFocus === selComp && currentTool == 'resize' ? 1 : 0
-
 
             TextEdit {
                 id: edit
                 anchors.centerIn: parent
                 text: qsTr("enter text")
                 focus: false
+                Component.onCompleted: focus = true
             }
 
 
@@ -333,6 +330,72 @@ Item {
                 onDoubleClicked: {
                     edit.focus = true
                 }
+
+            }
+
+            Resize {
+                id: resize
+                anchors.fill: parent
+                property string type: selComp.type
+            }
+
+        }
+
+
+    }
+    Component {
+        id: image
+
+        // add support for image selection
+
+        Rectangle {
+            id: selComp
+            width: playground.width*0.3
+            height: playground.height*0.3
+            color: "transparent"
+
+            property string type: "image"
+            property int rulersSize: 15
+            property bool resizeVisible: canvas.canvasFocus === selComp && currentTool == 'resize' ? 1 : 0
+            border {
+                width: 2
+                color: resizeVisible ? "black" : "transparent"
+            }
+            Image {
+                width: parent.width; height: parent.height
+                fillMode: Image.PreserveAspectFit
+                source: "animation.svg"
+            }
+
+
+            MouseArea {     // drag mouse area
+                enabled: currentToolType == 'edit' ? true : false
+                anchors.fill: parent
+                drag{
+                    target: currentTool == 'position' ? parent : null
+                    minimumX: 0
+                    minimumY: 0
+                    maximumX: parent.parent.width - parent.width
+                    maximumY: parent.parent.height - parent.height
+                }
+
+                onClicked: {
+                    canvas.canvasFocus = selComp
+                    if(currentToolType == 'edit'){
+                        switch(currentTool){
+                        case "deleteItem":
+                            parent.destroy()
+                            break;
+                        case "borderColor":
+                            break;
+                        case "bodyColor":
+                            break;
+                        default:
+                            console.log('edit tool : '+ currentTool)
+                        }
+                    }
+                }
+
             }
 
             Resize {
@@ -344,5 +407,9 @@ Item {
         }
 
     }
+
+
+
+
 
 }

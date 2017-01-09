@@ -24,6 +24,20 @@ import QtQuick 2.1
 import "../../core"
 import "animation.js" as Activity
 
+/*
+  not all the features mentioned (only those to be implemented in two weeks)
+
+1. Add image selection UI
+2. Tools selection UI
+3. Animation Frame
+4. Bundling js code into animation.js
+5. Making Colors,Animation frame as seperate components
+6. clean the code
+
+*/
+
+
+
 ActivityBase {
     id: activity
     onStart: focus = true
@@ -71,7 +85,7 @@ ActivityBase {
                 anchors.horizontalCenter: parent.horizontalCenter
                 spacing: 10
                 Repeater {
-                    model: ["rectangle", "square", "circle", "line", "text", "delete", "resize", "position",'bodyColor','borderColor']
+                    model: ["rectangle", "square", "circle", "line", "text","image", "delete", "resize", "position",'bodyColor','borderColor']
                     Rectangle {
                         width: parent.width*0.8
                         anchors.horizontalCenter: parent.horizontalCenter
@@ -107,6 +121,10 @@ ActivityBase {
                                 case 'text':
                                     tools.currentToolType = 'createObject'
                                     tools.currentTool = shapes.textArea
+                                    break;
+                                case 'image':
+                                    tools.currentToolType = 'createObject'
+                                    tools.currentTool = shapes.image
                                     break;
                                 case 'delete':
                                     tools.currentToolType = 'edit'
