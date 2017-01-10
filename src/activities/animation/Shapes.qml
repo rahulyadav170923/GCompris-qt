@@ -48,11 +48,11 @@ Item {
     Component {
         id: rectangle
         Rectangle {
-            id: selComp
+            id: selectComponent
             property string type: "rectangle"
             color: "blue"
             property int rulersSize: 15
-            property bool resizeVisible: canvas.canvasFocus === selComp && currentTool == 'resize' ? 1 : 0
+            property bool resizeVisible: canvas.canvasFocus === selectComponent && currentTool == 'resize' ? 1 : 0
             border {
                 width: 2
                 color: "black"
@@ -70,17 +70,17 @@ Item {
                 }
 
                 onClicked: {
-                    canvas.canvasFocus = selComp
+                    canvas.canvasFocus = selectComponent
                     if(currentToolType == 'edit'){
                         switch(currentTool){
                         case "deleteItem":
                             parent.destroy()
                             break;
                         case "borderColor":
-                            selComp.border.color = borderColor
+                            selectComponent.border.color = borderColor
                             break;
                         case "bodyColor":
-                            selComp.color = bodyColor
+                            selectComponent.color = bodyColor
                             break;
                         default:
                             console.log('edit tool default')
@@ -93,7 +93,7 @@ Item {
             Resize {
                 id: resize
                 anchors.fill: parent
-                property string type: selComp.type
+                property string type: selectComponent.type
             }
 
         }
@@ -106,12 +106,12 @@ Item {
         id: circle
 
         Rectangle {
-            id: selComp
+            id: selectComponent
             property string type: "circle"
             radius: width/2
             color: "#354682B4"
             property int rulersSize: 15
-            property bool resizeVisible: canvas.canvasFocus === selComp && currentTool == 'resize' ? 1 : 0
+            property bool resizeVisible: canvas.canvasFocus === selectComponent && currentTool == 'resize' ? 1 : 0
 
             border {
                 width: 2
@@ -130,17 +130,17 @@ Item {
                 }
 
                 onClicked: {
-                    canvas.canvasFocus = selComp
+                    canvas.canvasFocus = selectComponent
                     if(currentToolType == 'edit'){
                         switch(currentTool){
                         case "deleteItem":
                             parent.destroy()
                             break;
                         case "borderColor":
-                            selComp.border.color = borderColor
+                            selectComponent.border.color = borderColor
                             break;
                         case "bodyColor":
-                            selComp.color = bodyColor
+                            selectComponent.color = bodyColor
                             break;
                         default:
                             console.log('edit tool default')
@@ -156,7 +156,7 @@ Item {
             Resize {
                 id: resize
                 anchors.fill: parent
-                property string type: selComp.type
+                property string type: selectComponent.type
             }
 
 
@@ -166,11 +166,11 @@ Item {
         id: square
 
         Rectangle {
-            id: selComp
+            id: selectComponent
             property string type: "square"
             color: "#354682B4"
             property int rulersSize: 15
-            property bool resizeVisible: canvas.canvasFocus === selComp && currentTool == 'resize' ? 1 : 0
+            property bool resizeVisible: canvas.canvasFocus === selectComponent && currentTool == 'resize' ? 1 : 0
 
             border {
                 width: 2
@@ -189,17 +189,17 @@ Item {
                 }
 
                 onClicked: {
-                    canvas.canvasFocus = selComp
+                    canvas.canvasFocus = selectComponent
                     if(currentToolType == 'edit'){
                         switch(currentTool){
                         case "deleteItem":
                             parent.destroy()
                             break;
                         case "borderColor":
-                            selComp.border.color = borderColor
+                            selectComponent.border.color = borderColor
                             break;
                         case "bodyColor":
-                            selComp.color = bodyColor
+                            selectComponent.color = bodyColor
                             break;
                         default:
                             console.log('edit tool default')
@@ -211,7 +211,7 @@ Item {
             Resize {
                 id: resize
                 anchors.fill: parent
-                property string type: selComp.type
+                property string type: selectComponent.type
             }
 
         }
@@ -219,18 +219,18 @@ Item {
     Component {
         id: line
         Rectangle {
-            id: selComp
+            id: selectComponent
             property string type: "line"
             property var slope: 0
             height: 10
             color: "black"
             property int rulersSize: 15
-            property bool resizeVisible: canvas.canvasFocus === selComp && currentTool == 'resize' ? 1 : 0
+            property bool resizeVisible: canvas.canvasFocus === selectComponent && currentTool == 'resize' ? 1 : 0
 
             transform: Rotation {
                 origin.x: 25
                 origin.y: 25
-                angle: selComp.slope
+                angle: selectComponent.slope
             }
 
             MouseArea {     // drag mouse area
@@ -245,7 +245,7 @@ Item {
                 }
 
                 onClicked: {
-                    canvas.canvasFocus = selComp
+                    canvas.canvasFocus = selectComponent
                     if(currentToolType == 'edit'){
                         switch(currentTool){
                         case "deleteItem":
@@ -254,7 +254,7 @@ Item {
                         case "borderColor":
                             break;
                         case "bodyColor":
-                            selComp.color = bodyColor
+                            selectComponent.color = bodyColor
                             break;
                         default:
                             console.log('edit tool default')
@@ -265,7 +265,7 @@ Item {
             Resize {
                 id: resize
                 anchors.fill: parent
-                property string type: selComp.type
+                property string type: selectComponent.type
             }
 
         }
@@ -275,14 +275,14 @@ Item {
         id: textArea
 
         Rectangle {
-            id: selComp
+            id: selectComponent
             width: edit.contentWidth + 30
             height: edit.contentHeight
             property string type: "text"
 
             color: "#354682B4"
             property int rulersSize: 15
-            property bool resizeVisible: canvas.canvasFocus === selComp && currentTool == 'resize' ? 1 : 0
+            property bool resizeVisible: canvas.canvasFocus === selectComponent && currentTool == 'resize' ? 1 : 0
             border {
                 width: 2
                 color: "black"
@@ -309,17 +309,17 @@ Item {
                 }
 
                 onClicked: {
-                    canvas.canvasFocus = selComp
+                    canvas.canvasFocus = selectComponent
                     if(currentToolType == 'edit'){
                         switch(currentTool){
                         case "deleteItem":
                             parent.destroy()
                             break;
                         case "borderColor":
-                            selComp.border.color = borderColor
+                            selectComponent.border.color = borderColor
                             break;
                         case "bodyColor":
-                            selComp.color = bodyColor
+                            selectComponent.color = bodyColor
                             break;
                         default:
                             console.log('edit tool : '+ currentTool)
@@ -336,7 +336,7 @@ Item {
             Resize {
                 id: resize
                 anchors.fill: parent
-                property string type: selComp.type
+                property string type: selectComponent.type
             }
 
         }
@@ -349,14 +349,14 @@ Item {
         // add support for image selection
 
         Rectangle {
-            id: selComp
+            id: selectComponent
             width: playground.width*0.3
             height: playground.height*0.3
             color: "transparent"
 
             property string type: "image"
             property int rulersSize: 15
-            property bool resizeVisible: canvas.canvasFocus === selComp && currentTool == 'resize' ? 1 : 0
+            property bool resizeVisible: canvas.canvasFocus === selectComponent && currentTool == 'resize' ? 1 : 0
             border {
                 width: 2
                 color: resizeVisible ? "black" : "transparent"
@@ -364,7 +364,7 @@ Item {
             Image {
                 width: parent.width; height: parent.height
                 fillMode: Image.PreserveAspectFit
-                source: "animation.svg"
+                source: currentImage
             }
 
 
@@ -380,7 +380,7 @@ Item {
                 }
 
                 onClicked: {
-                    canvas.canvasFocus = selComp
+                    canvas.canvasFocus = selectComponent
                     if(currentToolType == 'edit'){
                         switch(currentTool){
                         case "deleteItem":
@@ -401,7 +401,7 @@ Item {
             Resize {
                 id: resize
                 anchors.fill: parent
-                property string type: selComp.type
+                property string type: selectComponent.type
             }
 
         }

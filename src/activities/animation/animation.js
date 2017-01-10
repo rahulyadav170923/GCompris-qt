@@ -25,6 +25,11 @@
 var currentLevel = 0
 var numberOfLevel = 4
 var items
+ /*
+   1. build the images array
+   */
+var images = [ ['animation.svg',['animation.svg','animation.svg','animation.svg','animation.svg']],
+              ['animation.svg',['animation.svg','animation.svg']] ]
 
 function start(items_) {
     items = items_

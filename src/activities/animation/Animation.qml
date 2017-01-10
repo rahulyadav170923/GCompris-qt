@@ -124,7 +124,7 @@ ActivityBase {
                                     break;
                                 case 'image':
                                     tools.currentToolType = 'createObject'
-                                    tools.currentTool = shapes.image
+                                    tools.currentTool = 'image'
                                     break;
                                 case 'delete':
                                     tools.currentToolType = 'edit'
@@ -304,6 +304,7 @@ ActivityBase {
                 property alias currentTool: tools.currentTool
                 property alias borderColor: colors.fillBorderColor
                 property alias bodyColor: colors.fillBodyColor
+                property alias currentImage: images.currentImage
             }
         }
         // have to add colors array for model below and add color function to canvas
@@ -352,6 +353,115 @@ ActivityBase {
                 }
             }
 
+        }
+
+        Rectangle {
+            id: images
+            width: parent.width
+            height: parent.height
+            visible: tools.currentTool == 'image' ? true : false
+            property var imageArray: []
+            property string currentImage
+            Rectangle {
+                id: imageType
+                width: tools.width
+                height: parent.height
+                color: "green"
+                ListView {
+                    id: imageList
+                    anchors.fill: parent
+                    spacing: 5
+                    model: Activity.images
+                    clip: true
+                    delegate: Rectangle {
+                        id: selectImageGroup
+                        width: imageType.width*0.5
+                        height: imageType.height*0.2
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        color: mouseArea.containsMouse ? "red" : "transparent"
+                        property int rulersSize: 15
+                        border {
+                            width: 2
+                            color: mouseArea.containsMouse ? "black" : "transparent"
+                        }
+
+                        Image {
+                            width: parent.width
+                            height: parent.height
+                            source: modelData[0]
+                        }
+
+                        MouseArea {
+                            id: mouseArea
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            onClicked: {
+                                images.imageArray = modelData[1]
+                            }
+
+                        }
+
+                    }
+                }
+            }
+
+            Rectangle {
+                id: chooseImage
+                anchors.left: imageType.right
+                width: playground.width
+                height: parent.height
+                color: "orange"
+
+                GridView {
+                    id: view
+                    anchors.fill: chooseImage
+                    anchors.margins: 20
+
+                    //clip: true
+
+                    model: images.imageArray
+
+                    cellWidth: 100
+                    cellHeight: 100
+
+                    delegate: image
+                }
+
+
+                Component {
+                    id: image
+
+                    Rectangle {
+                        id: selectImage
+                        width: 80
+                        height: 80
+                        color: mouseArea.containsMouse ? "red" : "transparent"
+                        property int rulersSize: 15
+                        border {
+                            width: 5
+                            color: mouseArea.containsMouse ? "black" : "transparent"
+                        }
+
+                        Image {
+                            width: parent.width
+                            height: parent.height
+                            source: modelData
+                        }
+
+                        MouseArea {
+                            id: mouseArea
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            onClicked: {
+                                images.currentImage = modelData
+                                tools.currentTool = shapes.image
+                                console.log('currentTool :'+tools.currentTool)
+                            }
+
+                        }
+                    }
+                }
+            }
         }
 
         DialogHelp {

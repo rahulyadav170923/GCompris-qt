@@ -52,39 +52,39 @@ Item {
                 case (type=="rectangle" || type=="text" || type=="image"):
                     if(drag.active){
                         console.log('inside')
-                        selComp.width = selComp.width - mouseX
-                        selComp.x = selComp.x + mouseX
-                        if(selComp.width < 0)
-                            selComp.width = 0
+                        selectComponent.width = selectComponent.width - mouseX
+                        selectComponent.x = selectComponent.x + mouseX
+                        if(selectComponent.width < 0)
+                            selectComponent.width = 0
                     }
                     break;
                 case type=="circle":
                     if(drag.active){
-                        selComp.width = selComp.width - mouseX
-                        selComp.height = selComp.width
-                        selComp.x = selComp.x + mouseX
-                        if(selComp.width < 0)
-                            selComp.width = 0
+                        selectComponent.width = selectComponent.width - mouseX
+                        selectComponent.height = selectComponent.width
+                        selectComponent.x = selectComponent.x + mouseX
+                        if(selectComponent.width < 0)
+                            selectComponent.width = 0
                     }
                     break;
                 case type=="square":
                     if(drag.active){
-                        selComp.width = selComp.width - mouseX
-                        selComp.height = selComp.width
-                        selComp.x = selComp.x + mouseX
-                        if(selComp.width < 0)
-                            selComp.width = 0
+                        selectComponent.width = selectComponent.width - mouseX
+                        selectComponent.height = selectComponent.width
+                        selectComponent.x = selectComponent.x + mouseX
+                        if(selectComponent.width < 0)
+                            selectComponent.width = 0
                     }
                     break;
                 case type=="line":
                     if(drag.active){
-                        if(selComp.width > 0){
-                            selComp.width = selComp.width - mouseX
-                            selComp.x = selComp.x + mouseX
-                            selComp.y = selComp.y + mouseX*Math.tan(Math.PI*selComp.slope / 180)
+                        if(selectComponent.width > 0){
+                            selectComponent.width = selectComponent.width - mouseX
+                            selectComponent.x = selectComponent.x + mouseX
+                            selectComponent.y = selectComponent.y + mouseX*Math.tan(Math.PI*selectComponent.slope / 180)
                         }
-                        if(selComp.width < 0)
-                            selComp.width = 0
+                        if(selectComponent.width < 0)
+                            selectComponent.width = 0
                     }
                     break;
                 default:
@@ -113,32 +113,32 @@ Item {
                 switch (true) {
                 case (type=="rectangle" || type=="text" || type=="image"):
                     if(drag.active){
-                        selComp.width = selComp.width + mouseX
-                        if(selComp.width < 0)
-                            selComp.width = 0
+                        selectComponent.width = selectComponent.width + mouseX
+                        if(selectComponent.width < 0)
+                            selectComponent.width = 0
                     }
                     break;
                 case type=="circle":
                     if(drag.active){
-                        selComp.width = selComp.width + mouseX
-                        selComp.height = selComp.width
-                        if(selComp.width < 0)
-                            selComp.width = 0
+                        selectComponent.width = selectComponent.width + mouseX
+                        selectComponent.height = selectComponent.width
+                        if(selectComponent.width < 0)
+                            selectComponent.width = 0
                     }
                     break;
                 case type=="square":
                     if(drag.active){
-                        selComp.width = selComp.width + mouseX
-                        selComp.height = selComp.width
-                        if(selComp.width < 0)
-                            selComp.width = 0
+                        selectComponent.width = selectComponent.width + mouseX
+                        selectComponent.height = selectComponent.width
+                        if(selectComponent.width < 0)
+                            selectComponent.width = 0
                     }
                     break;
                 case type=="line":
                     if(drag.active){
-                        selComp.width = selComp.width + mouseX
-                        if(selComp.width < 0)
-                            selComp.width = 0
+                        selectComponent.width = selectComponent.width + mouseX
+                        if(selectComponent.width < 0)
+                            selectComponent.width = 0
                     }
                     break;
                 default:
@@ -167,28 +167,28 @@ Item {
                 switch (true) {
                 case (type=="rectangle" || type=="text" || type=="image"):
                     if(drag.active){
-                        selComp.height = selComp.height - mouseY
-                        selComp.y = selComp.y + mouseY
-                        if(selComp.height < 0)
-                            selComp.height = 0
+                        selectComponent.height = selectComponent.height - mouseY
+                        selectComponent.y = selectComponent.y + mouseY
+                        if(selectComponent.height < 0)
+                            selectComponent.height = 0
                     }
                     break;
                 case type=="circle":
                     if(drag.active){
-                        selComp.height = selComp.height - mouseY
-                        selComp.width = selComp.height
-                        selComp.y = selComp.y + mouseY
-                        if(selComp.height < 0)
-                            selComp.height = 0
+                        selectComponent.height = selectComponent.height - mouseY
+                        selectComponent.width = selectComponent.height
+                        selectComponent.y = selectComponent.y + mouseY
+                        if(selectComponent.height < 0)
+                            selectComponent.height = 0
                     }
                     break;
                 case type=="square":
                     if(drag.active){
-                        selComp.height = selComp.height - mouseY
-                        selComp.width = selComp.height
-                        selComp.y = selComp.y + mouseY
-                        if(selComp.height < 0)
-                            selComp.height = 0
+                        selectComponent.height = selectComponent.height - mouseY
+                        selectComponent.width = selectComponent.height
+                        selectComponent.y = selectComponent.y + mouseY
+                        if(selectComponent.height < 0)
+                            selectComponent.height = 0
                     }
                     break;
                 default:
@@ -218,25 +218,25 @@ Item {
                 switch (true) {
                 case (type=="rectangle" || type=="text" || type=="image"):
                     if(drag.active){
-                        selComp.height = selComp.height + mouseY
-                        if(selComp.height < 0)
-                            selComp.height = 0
+                        selectComponent.height = selectComponent.height + mouseY
+                        if(selectComponent.height < 0)
+                            selectComponent.height = 0
                     }
                     break;
                 case type=="circle":
                     if(drag.active){
-                        selComp.height = selComp.height + mouseY
-                        selComp.width = selComp.height
-                        if(selComp.height < 0)
-                            selComp.height = 0
+                        selectComponent.height = selectComponent.height + mouseY
+                        selectComponent.width = selectComponent.height
+                        if(selectComponent.height < 0)
+                            selectComponent.height = 0
                     }
                     break;
                 case type=="square":
                     if(drag.active){
-                        selComp.height = selComp.height + mouseY
-                        selComp.width = selComp.height
-                        if(selComp.height < 0)
-                            selComp.height = 0
+                        selectComponent.height = selectComponent.height + mouseY
+                        selectComponent.width = selectComponent.height
+                        if(selectComponent.height < 0)
+                            selectComponent.height = 0
                     }
                     break;
                 case "line":
