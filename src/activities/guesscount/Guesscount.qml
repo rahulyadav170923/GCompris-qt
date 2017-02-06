@@ -341,7 +341,8 @@ ActivityBase {
 
         Bonus {
             id: bonus
-            Component.onCompleted: win.connect(Activity.nextLevel)
+            //property alias win: win
+            //Component.onCompleted: win.connect(Activity.nextLevel)
         }
         Timer {
             id: timer
